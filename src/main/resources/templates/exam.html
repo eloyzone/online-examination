@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+              integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+              crossorigin="anonymous">
+        <link th:href="@{/css/toast.css}" rel="stylesheet" href="css/toast.css">
+        <style>
+            .gap-input {
+                font-size: 1rem;
+                line-height: 1.5;
+                color: #495057;
+                background-color: #fff;
+                background-clip: padding-box;
+                border: 1px solid #ced4da;
+                border-radius: .25rem;
+            }
+
+            .hint {
+                color: #325f8c;
+                font-style: italic;
+                font-weight: 600;
+                font-size: 0.8em;
+            }
+
+            ol {
+                counter-reset: li;
+                list-style: none;
+            }
+
+            .questions-list li {
+                padding-top: 15px;
+                padding-bottom: 15px;
+                border-bottom: 1px dashed #ccc;
+            }
+
+            .questions-list .list-number {
+                position: relative;
+                margin: 0;
+                font-size: 1.7em;
+            }
+
+            .questions-list p {
+                margin: 0;
+            }
+
+            .questions-list .list-number:before {
+                content: counter(li);
+                counter-increment: li;
+                position: absolute;
+                z-index: -1;
+                left: -1.3em;
+                top: -.8em;
+                background: #f5f5f5;
+                height: 1.5em;
+                width: 1.5em;
+                border: .1em solid rgba(0, 0, 0, .05);
+                text-align: center;
+                font: italic bold 1em Georgia, Serif;
+                color: #ccc;
+                border-radius: 1.5em;
+                transition: all .2s ease-out;
+            }
+
+            .questions-list li:hover .list-number:before {
+                /* background-color: #ffd797; */
+                border-color: rgba(0, 0, 0, .08);
+                border-width: .2em;
+                color: #444;
+                transform: scale(1.2);
+            }
+
+            .questions-list li:focus-within .list-number:before {
+                background-color: #ffd797;
+                border-color: rgba(0, 0, 0, .08);
+                border-width: .2em;
+                color: #444;
+                transform: scale(1.5);
+            }
+
+            .correct-answer {
+                background-color: #6fd06f9c;
+            }
+
+            .wrong-answer {
+                background-color: #ff907e9c;
+            }
+
+            /*
+    *
+    * ==========================================
+    * CUSTOM UTIL CLASSES
+    * ==========================================
+    *
+    */
+
+            .progress-circle {
+                width: 150px;
+                height: 150px;
+                background: none;
+                position: relative;
+            }
+
+            .progress-circle::after {
+                content: "";
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                border: 6px solid #eee;
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+
+            .progress-circle > span {
+                width: 50%;
+                height: 100%;
+                overflow: hidden;
+                position: absolute;
+                top: 0;
+                z-index: 1;
+            }
+
+            .progress-circle .progress-circle-left {
+                left: 0;
+            }
+
+            .progress-circle .progress-circle-bar {
+                width: 100%;
+                height: 100%;
+                background: none;
+                border-width: 6px;
+                border-style: solid;
+                position: absolute;
+                top: 0;
+            }
+
+            .progress-circle .progress-circle-left .progress-circle-bar {
+                left: 100%;
+                border-top-right-radius: 80px;
+                border-bottom-right-radius: 80px;
+                border-left: 0;
+                -webkit-transform-origin: center left;
+                transform-origin: center left;
+            }
+
+            .progress-circle .progress-circle-right {
+                right: 0;
+            }
+
+            .progress-circle .progress-circle-right .progress-circle-bar {
+                left: -100%;
+                border-top-left-radius: 80px;
+                border-bottom-left-radius: 80px;
+                border-right: 0;
+                -webkit-transform-origin: center right;
+                transform-origin: center right;
+            }
+
+            .progress-circle .progress-circle-value {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+
+            .loader {
+                display: inline-block;
+                border: 5px solid #f3f3f3;
+                border-radius: 50%;
+                border-top: 5px solid #d73e3e;
+                width: 20px;
+                height: 20px;
+                -webkit-animation: spin 2s linear infinite;
+                animation: spin 2s linear infinite;
+            }
+
+            .gap-input-text {
+                border: 1px solid #00a1ff;
+                border-radius: 4px;
+            }
+
+            .red-input-text {
+                border: 2px solid #d5191a;
+                border-radius: 4px;
+            }
+
+            .popover-body {
+                color: #974848;
+                background-color: #f4f4f4;
+            }
+
+            .bs-popover-bottom > .arrow::after {
+                border-bottom-color: #bc6161;
+            }
+
+            /* Safari */
+            @-webkit-keyframes spin {
+                0% {
+                    -webkit-transform: rotate(0deg);
+                }
+                100% {
+                    -webkit-transform: rotate(360deg);
+                }
+            }
+
+            @keyframes spin {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+
+            .progress span {
+                position: absolute;
+                left: 0;
+                width: 100%;
+                text-align: center;
+                z-index: 2;
+                color: black;
+                margin-top: 8px;
+            }
+        </style>
+
+
+        <title>Hello, world!</title>
+    </head>
+    <body>
+
+
+        <div class="container">
+
+
+            <div class="progress"
+                 style="position:absolute;
+                        left: 50%;
+                        top: 0;
+                        width: 70%;
+                        position: fixed;   /* Take it out of the flow of the document */
+                        left: 0;           /* Left edge at left for now */
+                        right: 0;          /* Right edge at right for now, so full width */
+                        margin: auto;      /* Center it */
+                        max-width: 100%;   /* Make it fit window if under 500px */
+                        z-index: 10000;    /* Whatever needed to force to front (1 might do) */">
+                <!--<div class="progress-bar" role="progressbar" style="width: 100%;">32% (25 out of 100)</div>-->
+                <div class="progress-bar" id="progress-bar" role="progressbar"></div>
+                <span>0%</span>
+            </div>
+
+            <div>
+                <ol class="questions-list" id="questions-list">
+                    <!--<li>-->
+                    <!--<span class="list-number"></span>-->
+                    <!--He-->
+                    <!--<input class="gap-input-text" type="text" size="10" value="" id="solution1_1">-->
+                    <!--reads a book.-->
+                    <!--<span class="hint">(quick)</span>-->
+                    <!--<button type="button" class="btn btn-sm check-answer-button btn-warning">Check</button>-->
+                    <!--</li>-->
+                    <li th:each="gapFillingQuestion :${gapFillingQuestions}">
+                        <input type="hidden" th:value="${gapFillingQuestion.id}"/>
+                        <span class="list-number"></span>
+                        <span class="question-span" th:text="${gapFillingQuestion.text}"></span>
+                        <span class="hint" th:if="${gapFillingQuestion.hint != null and gapFillingQuestion.hint != ''}"
+                              th:text="'('+ ${gapFillingQuestion.hint} +')'">(quick)</span>
+                        <div class="mt-2">
+                            <button type="button" class="btn btn-sm check-answer-button btn-warning">Check</button>
+                            <button type="button" class="btn btn-sm btn-info d-none"
+                                    data-toggle="collapse"
+                                    th:attr="data-target=@{#collapseDescription-{id}(id=${gapFillingQuestion.id})}
+                                         ,aria-controls=@{collapseDescription-{id}(id=${gapFillingQuestion.id})}"
+                                    aria-expanded="false"
+                            >Description
+                            </button>
+                            <div class="loader d-none"></div>
+                            <div class="collapse mt-4"
+                                 th:id="@{collapseDescription-{id}(id=${gapFillingQuestion.id})}">
+                                <div class="card card-body">
+                                    <h6 class="card-title">Answer: <span style="color: #187d18"></span></h6>
+                                </div>
+                            </div>
+                        </div>
+
+                    </li>
+                </ol>
+            </div>
+
+
+        </div>
+
+
+        <input type="text" id="gapInputTextTemplate" class="gap-input-text" size="10" style="display:none"
+               data-toggle="tooltip" data-placement="top" th:attr="data-content=#{not.empty.input.text}">
+
+
+        <script>
+            window.addEventListener("DOMContentLoaded", function () {
+
+                let questionSpans = document.getElementsByClassName("question-span");
+                for (let i = 0; i < questionSpans.length; i++) {
+                    let toReplace = questionSpans.item(i);
+                    // toReplace.innerHTML = toReplace.innerHTML.replace("XXX",
+                    //     '<input type="text" class= "gap-input-text" size="10" ' +
+                    //     'data-toggle="tooltip" data-placement="top" ' +
+                    //     'th:attr="data-content=#{not.empty.input.text}">');
+                    // $(this).html(toReplace);
+                    let clonedGapInputText = document.getElementById("gapInputTextTemplate").cloneNode(true);
+                    clonedGapInputText.style.display = "";
+                    clonedGapInputText.removeAttribute('id');
+                    toReplace.innerHTML = toReplace.innerHTML.replace("XXX", clonedGapInputText.outerHTML);
+                }
+            });
+
+
+        </script>
+
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+                integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+                crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+                integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+                crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+                integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+                crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
+        <script th:src="@{/js/toast.js}" src="js/toast.js"></script>
+
+
+        <script>
+
+            $(document).ready(function () {
+
+                let totalQuestionsCount = document.getElementById("questions-list").getElementsByTagName("li").length;
+                let answeredQuestionCount = 0;
+
+                $(".progress span").text("0%");
+
+                let focusedIndex = 0;
+                // $('.gap-input-text').eq(focused_index).focus();
+                document.querySelectorAll('.gap-input-text')[focusedIndex].focus();
+
+                $(".gap-input-text").focus(function () {
+                    focusedIndex = $(".gap-input-text").index($(this));
+                });
+
+
+                $('.check-answer-button').on('click', function () {
+                    let checkAnswerButton = $(this);
+                    let questionList = $(this).parent().parent();
+                    let enteredAnswerInputText = questionList.find("input[type=text]:first");
+                    let showDescriptionButton = questionList.find("button:eq(1)");
+                    let loaderDiv = questionList.find("div.loader");
+                    let collapsableDescriptionDiv = questionList.find("div div.collapse");
+                    let enteredAnswer = enteredAnswerInputText.val().trim();
+                    let questionId = questionList.find("input[type=hidden]:first").val();
+
+                    if (enteredAnswer.length == 0) {
+                        enteredAnswerInputText.addClass("red-input-text");
+                        enteredAnswerInputText.popover('show');
+
+                        enteredAnswerInputText.on('input', function () {
+                            $(this).popover('dispose');
+                        });
+                    }
+                    else {
+                        enteredAnswerInputText.removeClass("red-input-text");
+                        loaderDiv.removeClass("d-none");
+                        enteredAnswerInputText.attr("readonly", "readonly");
+                        checkSubmittedAnswerViaAjax(checkAnswerButton, enteredAnswer, questionId, enteredAnswerInputText, loaderDiv, showDescriptionButton, collapsableDescriptionDiv, answeredQuestionCount, totalQuestionsCount);
+                    }
+                });
+
+                function updateDueToAnsweringQuestion() {
+
+                    if (answeredQuestionCount != totalQuestionsCount) {
+                        answeredQuestionCount++;
+                        let progressBarPercent = Math.trunc((answeredQuestionCount / totalQuestionsCount * 100));
+                        $("#progress-bar").css("width", progressBarPercent + "%");
+                        $(".progress span").text(progressBarPercent + "%");
+                    }
+                }
+
+
+                $('.gap-input-text').keypress(function (e) {
+                    let key = e.which;
+                    if (key == 13)  // the enter key code
+                    {
+                        let questionList = $(this).parent().parent();
+                        questionList.find("button").click();
+                        // $('.gap-input-text').eq(focused_index + 1).focus();
+                        if ($(this).val().length > 0)
+                            document.querySelectorAll('.gap-input-text')[focusedIndex + 1].focus();
+                        return false;
+                    }
+                });
+
+                function checkSubmittedAnswerViaAjax(checkAnswerButton, enteredAnswer, questionId, enteredAnswerInputText, loaderDiv, showDescriptionButton, collapsableDescriptionDiv) {
+
+                    let questionCheckingRequest = {};
+
+                    questionCheckingRequest["questionId"] = questionId;
+                    questionCheckingRequest["enteredAnswer"] = enteredAnswer;
+                    checkAnswerButton.attr('disabled','disabled');
+
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        url: "/rest/exam/checkAnswer",
+                        data: JSON.stringify(questionCheckingRequest),
+                        dataType: 'json',
+                        cache: false,
+                        timeout: 600000,
+                        success: function (data) {
+
+                            // console.log("SUCCESS : ", data);
+                            // console.log(data['status']);
+                            // console.log(data['description']);
+
+                            loaderDiv.addClass("d-none");
+
+                            if (data['status'] == 'correct') {
+                                enteredAnswerInputText.addClass("correct-answer").removeClass("wrong-answer");
+                                updateDueToAnsweringQuestion();
+                            }
+                            else if (data['status'] == 'wrong') {
+                                enteredAnswerInputText.addClass("wrong-answer").removeClass("correct-answer");
+                                updateDueToAnsweringQuestion();
+                            }
+                            else {
+                                // ERROR
+                            }
+
+                            collapsableDescriptionDiv.find("div.card-body span").append(data['answer']);
+                            collapsableDescriptionDiv.find("div.card-body").append(data['description']);
+                            showDescriptionButton.removeClass("d-none");
+                        },
+                        error: function (e) {
+                            loaderDiv.addClass("d-none");
+                            console.log("ERROR : ", e);
+                        }
+                    });
+                }
+            });
+
+
+        </script>
+
+    </body>
+</html>
