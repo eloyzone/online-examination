@@ -1,31 +1,13 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://thymeleaf.org">
     <head>
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-              integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
-              crossorigin="anonymous">
+        <script th:replace="fragments/header :: headerElement"/>
         <!-- CKEditor 5 -->
         <script src="https://cdn.ckeditor.com/ckeditor5/22.0.0/decoupled-document/ckeditor.js"></script>
 
-        <link th:href="@{/css/toast.css}" rel="stylesheet" href="css/toast.css">
-
-
-        <title>Hello, world!</title>
+        <title>New Question</title>
     </head>
-
-
-    <style th:inline="css">
-        .text-alignment {
-            direction: /*[[#{lang.dir}]]*/ ltr;
-            text-align: /*[[#{lang.line.begin}]]*/ left;
-        }
-    </style>
-
 
     <body>
 
