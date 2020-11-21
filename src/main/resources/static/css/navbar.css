@@ -1,0 +1,40 @@
+/* navbar.css */
+
+.dropdown-menu {
+    position: absolute;
+    background: #343a40;
+}
+
+.dropdown-divider {
+    border-top: 1px solid #5c6064;
+}
+
+.dropdown-item {
+    color: whitesmoke;
+}
+
+.navbar-user-info {
+    display: inline-block;
+}
+
+.navbar-user-info > div {
+    display: inline-block;
+}
+
+.navbar-user-info > div:nth-child(1) img {
+    width: 70px;
+    height: 70px;
+}
+
+.navbar-user-info > div:nth-child(2) {
+    margin-left: 10px;
+    display: inline-block;
+}
+
+.navbar-user-info > div:nth-child(2) > div:nth-child(1) {
+    width: 141px;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+    clear: both;
+}

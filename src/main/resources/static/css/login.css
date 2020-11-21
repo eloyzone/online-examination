@@ -3,7 +3,7 @@
 html,body{
     background-image: url('http://getwallpapers.com/wallpaper/full/3/d/6/165878.jpg');
     background-size: cover;
-    background-repeat: no-repeat;
+    background-repeat: repeat;
     height: 100%;
     font-family: sans-serif;
 }

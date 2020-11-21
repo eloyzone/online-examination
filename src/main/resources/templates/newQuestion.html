@@ -28,7 +28,10 @@
 
 
     <body>
-        <div class="container mt-2">
+
+        <script th:replace="fragments/navbar :: navbar"/>
+
+        <div class="container mt-4">
 
             <div th:if="${toastMessages != null}" id="toast-container"
                  class="toast-top-full-width toast-container-dismissible">
