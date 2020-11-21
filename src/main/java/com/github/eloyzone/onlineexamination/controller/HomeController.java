@@ -20,6 +20,7 @@ public class HomeController
     @GetMapping("")
     public String getIndexView()
     {
-        return "anonymous/index";
+        System.out.println("here");
+        return "index";
     }
 }
