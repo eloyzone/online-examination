@@ -40,6 +40,10 @@
             color: red;
         }
 
+        .questionsCount {
+            color: wheat;
+        }
+
     </style>
 
     <style th:inline="css">
@@ -118,7 +122,7 @@
                             <input type="hidden" th:value="${book.id}"/>
                             <td th:utext="${book.name}">Elyas Book Name</td>
                             <td class="d-flex justify-content-end">
-                                <div class="questionsNumber"><span class="">2</span></div>
+                                <div class="questionsCount"><span class="" th:text="${#lists.size(book.gapFillingQuestions)} + ' Entries'">2</span></div>
                                 <div class="book-name-edit-button" data-toggle="tooltip" title="Edit">
                                     <i class="far fa-edit"></i>
                                 </div>

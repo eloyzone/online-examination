@@ -15,8 +15,8 @@ public class DateUtil
     {
         if (localDate == null)
         {
-//            localDate = LocalDate.now();
-            localDate = LocalDate.of(2019, Month.OCTOBER, 11);
+            localDate = LocalDate.now();
+//            localDate = LocalDate.of(2019, Month.OCTOBER, 12);
 
         }
         return localDate;

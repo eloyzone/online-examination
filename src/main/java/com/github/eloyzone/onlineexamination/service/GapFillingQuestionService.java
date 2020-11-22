@@ -169,6 +169,11 @@ public class GapFillingQuestionService
         }
     }
 
+    public Integer getNumberOfQuestionsInSpecificLevel(Long userId, Integer level)
+    {
+        return gapFillingQuestionRepository.numberOfQuestionsInSpecificLevel(userId, level);
+    }
+
     public void delete(Long questionId)
     {
         Optional<GapFillingQuestion> gapFillingQuestionOptional = gapFillingQuestionRepository.findById(questionId);

@@ -19,4 +19,7 @@ public interface GapFillingQuestionRepository extends JpaRepository<GapFillingQu
 {
     @Query(value = "SELECT question.*  FROM book INNER JOIN gap_filling_question as question ON book.id = question.book_id where book.user_id = :userId and (question.level=1 or question.level = :requestedLevel)", nativeQuery = true)
     List<GapFillingQuestion> findByUserIdAndLevels(@Param("userId") Long userId, @Param("requestedLevel") int level);
+
+    @Query(value = "SELECT count(question.id) FROM book INNER JOIN gap_filling_question as question ON book.id = question.book_id where book.user_id = :userId and question.level = :requestedLevel", nativeQuery = true)
+    Integer numberOfQuestionsInSpecificLevel(@Param("userId") Long userId, @Param("requestedLevel") int level);
 }
