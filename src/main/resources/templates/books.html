@@ -18,6 +18,11 @@
             cursor: pointer;
         }
 
+        .book-name-edit-button:hover {
+            color: red;
+            cursor: pointer;
+        }
+
         .filling-gap-questions-list tr td:nth-child(1) {
             font-size: 0.8em;
             padding-top: 16px;
@@ -38,6 +43,7 @@
 
         .white-button:hover{
             color: red;
+            cursor: pointer;
         }
 
         .questionsCount {
@@ -133,6 +139,14 @@
                                         <i class="far fa-list-alt"></i>
                                     </a>
                                 </div>
+                                <div>
+                                    <form th:action="@{/books/delete/{bookId}/(bookId=${book.id})}"
+                                          th:method="delete">
+                                        <a class="white-button delete-book-button">
+                                            <i class="far fa-trash-alt"></i></i>
+                                        </a>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                         <!--<tr>-->
@@ -168,8 +182,8 @@
         </div>
 
 
-        <!-- Remove Food Modal -->
-        <div class="modal fade" id="deleteFoodModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+        <!-- Remove Book Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
              aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -179,13 +193,13 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p class="text-right">
-                            آیا میخواهید آیتم مورد نظر را حذف کنید؟
-                        </p>
+                        <p class="text-alignment" th:utext="#{delete.confirmation.dialog}"></p>
                     </div>
-                    <div class="modal-footer" style="justify-content:start">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
-                        <button type="button" class="btn btn-secondary ok">تایید</button>
+                    <div class="modal-footer text-alignment">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" th:utext="#{cancel}">
+                            Cancel
+                        </button>
+                        <button type="button" class="btn btn-secondary ok" th:utext="#{yes}">Yes</button>
                     </div>
                 </div>
             </div>
@@ -301,6 +315,16 @@
                         // $('#bookNameEditForm').remove();
                         $(this).parent().parent().text(bookNameToEditOriginalName);
                     }
+                });
+
+                $('.delete-book-button').on('click', function () {
+                    let deleteForm = $(this).parent();
+                    $('#deleteModal').modal({backdrop: 'static', keyboard: false});
+
+                    $('#deleteModal button.ok').off().on('click', function () {
+                        $('#deleteModal').modal('hide');
+                        deleteForm.submit();
+                    });
                 });
 
 

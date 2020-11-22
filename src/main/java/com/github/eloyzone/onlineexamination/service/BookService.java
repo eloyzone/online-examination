@@ -69,4 +69,9 @@ public class BookService
     {
         return bookRepository.findByUser(user);
     }
+
+    public void deleteById(Long bookId)
+    {
+        bookRepository.deleteById(bookId);
+    }
 }

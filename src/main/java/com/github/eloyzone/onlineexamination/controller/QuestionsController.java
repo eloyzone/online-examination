@@ -36,7 +36,6 @@ import java.util.Optional;
 @RequestMapping("/books/{bookId}/questions")
 public class QuestionsController
 {
-
     @Autowired
     private MessageSource messageSource;
 

@@ -2,11 +2,14 @@ package com.github.eloyzone.onlineexamination.controller;
 
 import com.github.eloyzone.onlineexamination.domain.Book;
 import com.github.eloyzone.onlineexamination.domain.GapFillingQuestion;
+import com.github.eloyzone.onlineexamination.domain.ToastMessage;
 import com.github.eloyzone.onlineexamination.domain.User;
 import com.github.eloyzone.onlineexamination.service.BookService;
 import com.github.eloyzone.onlineexamination.validator.BookValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -33,6 +36,9 @@ import java.util.Optional;
 @RequestMapping("/books")
 public class BooksController
 {
+    @Autowired
+    private MessageSource messageSource;
+
     @Autowired
     private BookService bookService;
 
@@ -63,7 +69,7 @@ public class BooksController
 
     @PostMapping("/edit/new")
     public String saveBook(@AuthenticationPrincipal User user, @ModelAttribute("book") @Valid Book book, BindingResult bindingResult, HttpServletRequest httpServletRequest, ModelMap modelMap, RedirectAttributes redirectAttributes)
-   {
+    {
         redirectAttributes.addFlashAttribute("toast", true);
 
         if (bindingResult.hasErrors())
@@ -96,6 +102,27 @@ public class BooksController
         }
 
         redirectAttributes.addFlashAttribute("bookInserted", true);
+        return "redirect:/books";
+    }
+
+    @DeleteMapping("/delete/{bookId}")
+    public String deleteQuestion(@AuthenticationPrincipal User user, @PathVariable Long bookId, RedirectAttributes redirectAttributes)
+    {
+        List<ToastMessage> toastMessages = new ArrayList<>();
+        redirectAttributes.addFlashAttribute("toastMessages", toastMessages);
+
+        Optional<Book> optionalBook = bookService.findById(bookId);
+
+        if (optionalBook.isPresent() && optionalBook.get().getUser().getId() != user.getId())
+        {
+            return "redirect:/books";
+        } else
+        {
+            String message = messageSource.getMessage("book.deleted.successfully", null, LocaleContextHolder.getLocale());
+            toastMessages.add(new ToastMessage(message, ToastMessage.SUCCESS));
+            bookService.deleteById(bookId);
+        }
+
         return "redirect:/books";
     }
 }
