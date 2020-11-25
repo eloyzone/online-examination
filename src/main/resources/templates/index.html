@@ -15,7 +15,7 @@
             <div class="container">
                 <div class="row d-flex justify-content-center">
                     <div class="col-12">
-                        <div class="card-counter color-today-review">
+                        <div class="card-counter today-review blink">
                             <i class="fab fa-rev"></i>
                             <span class="count-numbers" th:text="${toReviewCount}">12</span>
                             <span class="count-name">Today's Review</span>
@@ -90,6 +90,9 @@
 
             window.addEventListener('DOMContentLoaded', function () {
 
+                document.querySelector('.today-review').addEventListener('click', function (e) {
+                    window.location.href = "/exam";
+                });
             });
         </script>
 

@@ -62,8 +62,12 @@
     color: white;
 }
 
-.color-today-review {
-    background-color: #bc1850;
+.today-review {
+    background-color: red;
+}
+
+.today-review:hover{
+    cursor: pointer;
 }
 
 .color-today-review > i {
@@ -96,4 +100,14 @@
 
 .color-level-7 {
     background-color: #14342B;
+}
+
+.blink {
+    animation: blinker 2s linear infinite;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0.7;
+    }
 }
