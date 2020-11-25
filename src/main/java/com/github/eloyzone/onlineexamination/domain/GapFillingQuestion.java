@@ -13,6 +13,9 @@ import java.time.LocalDate;
 @Table
 public class GapFillingQuestion
 {
+    //todo: if encounter with long text exception, show a message to user. for instance text, answer, and hint cannot be more than 255 characters
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,6 +28,8 @@ public class GapFillingQuestion
     private String hint;
     @NotEmpty(message = "{question.answer.cannot.be.empty}")
     private String answer;
+
+    @Lob // equals to LONGTEXT in mysql
     private String description;
 
     @NotNull
