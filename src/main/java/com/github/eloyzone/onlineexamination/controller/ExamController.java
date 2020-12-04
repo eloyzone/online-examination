@@ -29,8 +29,6 @@ public class ExamController
     @GetMapping("")
     public String getExamView(@AuthenticationPrincipal User user, ModelMap modelMap)
     {
-        System.out.println(user.getId());
-        System.out.println(user.getName());
         List<GapFillingQuestion> gapFillingQuestions = gapFillingQuestionService.getTodayQuestions(user);
         modelMap.put("gapFillingQuestions", gapFillingQuestions);
         return "exam";

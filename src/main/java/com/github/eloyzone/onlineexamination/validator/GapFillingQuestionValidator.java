@@ -37,7 +37,7 @@ public class GapFillingQuestionValidator implements Validator
 
         for (String s : splitText)
         {
-            if (s.equals("XXX") || s.equals("XXX."))
+            if (s.equals("XXX") || s.equals("XXX.") || s.equals("XXX,") || s.equals("XXX?") || s.equals("XXX!"))
             {
                 xxxCount++;
                 wrongFormat = false;

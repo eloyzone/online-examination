@@ -9,16 +9,14 @@ import java.time.Month;
  */
 public class DateUtil
 {
-    private static LocalDate localDate;
-
+    /**
+     * There is a good method within LocalDate for today's date, I use this method just for testing purposes.
+     *
+     * @return
+     */
     public static LocalDate getTodayDate()
     {
-        if (localDate == null)
-        {
-            localDate = LocalDate.now();
-//            localDate = LocalDate.of(2019, Month.OCTOBER, 12);
-
-        }
-        return localDate;
+        return LocalDate.now();
+//        return LocalDate.of(2019, Month.OCTOBER, 12);
     }
 }

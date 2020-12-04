@@ -79,14 +79,15 @@ public class GapFillingQuestionService
     {
         user = userRepository.findById(user.getId()).get();
         int level = whichLevelToReview(user);
+        LocalDate todayDate = DateUtil.getTodayDate();
         if (level != 1)
         {
             // level one plus others
-            return gapFillingQuestionRepository.findByUserIdAndLevels(user.getId(), level);
+            return gapFillingQuestionRepository.findByUserIdAndLevels(user.getId(), level, todayDate);
         } else
         {
             // just level one
-            return gapFillingQuestionRepository.findByUserIdAndLevels(user.getId(), 1);
+            return gapFillingQuestionRepository.findByUserIdAndLevels(user.getId(), 1, todayDate);
         }
     }
 
@@ -171,7 +172,7 @@ public class GapFillingQuestionService
 
     public Integer getNumberOfQuestionsInSpecificLevel(Long userId, Integer level)
     {
-        return gapFillingQuestionRepository.numberOfQuestionsInSpecificLevel(userId, level);
+        return gapFillingQuestionRepository.numberOfQuestionsInSpecificLevel(userId, level, DateUtil.getTodayDate());
     }
 
     public void delete(Long questionId)
