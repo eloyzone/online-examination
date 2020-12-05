@@ -172,7 +172,7 @@ public class GapFillingQuestionService
 
     public Integer getNumberOfQuestionsInSpecificLevel(Long userId, Integer level)
     {
-        return gapFillingQuestionRepository.numberOfQuestionsInSpecificLevel(userId, level, DateUtil.getTodayDate());
+        return gapFillingQuestionRepository.numberOfQuestionsInSpecificLevel(userId, level);
     }
 
     public void delete(Long questionId)
