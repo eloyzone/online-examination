@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -30,6 +31,7 @@ public class ExamController
     public String getExamView(@AuthenticationPrincipal User user, ModelMap modelMap)
     {
         List<GapFillingQuestion> gapFillingQuestions = gapFillingQuestionService.getTodayQuestions(user);
+        Collections.shuffle(gapFillingQuestions);
         modelMap.put("gapFillingQuestions", gapFillingQuestions);
         return "exam";
     }
