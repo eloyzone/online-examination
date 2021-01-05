@@ -8,15 +8,14 @@
     </head>
 
 
-
-
     <body>
 
         <div class="container">
 
 
             <!--Toast Notification-->
-            <div th:if="${toast != null}" id="toast-container" class="toast-top-full-width toast-container-dismissible">
+            <div th:if="${toast != null} OR ${param.error != null}" id="toast-container"
+                 class="toast-top-full-width toast-container-dismissible">
 
                 <div class="toast toast-success" th:if="${userRegistered}">
                     <button type="button" class="toast-close-button" role="button">×</button>
@@ -41,6 +40,12 @@
                         </div>
                     </div>
                 </th:block>
+
+                <div class="toast toast-error" th:if="${param.error != null}">
+                    <div class="toast-message text-alignment">
+                        <div th:utext="#{invalid.user.pass}"></div>
+                    </div>
+                </div>
 
             </div>
             <!--END: Toast Notification-->
