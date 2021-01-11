@@ -36,7 +36,7 @@
                                     <div class="dropdown-item navbar-user-info" href="#">
 
                                         <div>
-                                            <img src="https://image.shutterstock.com/z/stock-vector-user-icon-in-trendy-flat-style-isolated-on-grey-background-user-silhouette-symbol-for-your-web-418179865.jpg"
+                                            <img src=""
                                                  class="rounded"
                                                  alt="...">
                                         </div>
@@ -53,10 +53,12 @@
                                     <a class="dropdown-item" href="#">Edit Profile
                                         <i class="fas fa-cog"></i></a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="/logout">
+                                    <a class="dropdown-item" href="#" onclick="logoutForm.submit()">
                                         <i class="fas fa-sign-out-alt"></i>
                                         <span>Logout</span>
                                     </a>
+                                    <form id="logoutForm" name="logoutForm" class="dropdown-item" action="/perform_logout" hidden method="post">
+                                    </form>
                                 </div>
                             </li>
                         </ul>

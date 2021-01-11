@@ -4,6 +4,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -29,15 +30,16 @@ public class User
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     private List<Book> books = new ArrayList<>();
 
-
     @NotEmpty(message = "{username.cannot.be.empty}")
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String username;
 
     @NotEmpty(message = "{password.cannot.be.empty}")
+    @Column(nullable = false)
     private String password;
 
     @NotEmpty(message = "{name.cannot.be.empty}")
+    @Column(nullable = false)
     private String name;
 
     private LocalDate startingRoundLocalDate;

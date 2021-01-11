@@ -11,6 +11,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 
@@ -39,30 +42,45 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(HttpSecurity http) throws Exception
     {
-//        http.csrf().disable().authorizeRequests()
-//                .antMatchers("/anonymous*").anonymous()
-//                .antMatchers("/login*", "/register*").permitAll()
-//                .antMatchers("/css/**", "/js/**", "/images/**").permitAll()
-//                .antMatchers("/index*").permitAll()
-//                .antMatchers("/books*").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .formLogin()
-//                .loginPage("/login")
-//                .loginProcessingUrl("/perform_login")
-//                .defaultSuccessUrl("/", true);
+        http.
+                sessionManagement().sessionFixation().changeSessionId()
 
-
-        http.csrf().disable().authorizeRequests()
+                .and()
+                .csrf().disable()
+                .authorizeRequests()
                 .antMatchers("/anonymous*").anonymous()
                 .antMatchers("/login*", "/register*").permitAll()
                 .antMatchers("/css/**", "/js/**", "/images/**").permitAll()
                 .antMatchers("/**", "/books/**", "/exam/**").hasRole("USER")
+
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/perform_login")
-                .defaultSuccessUrl("/", true);
+                .defaultSuccessUrl("/", true)
+
+                .and()
+                .rememberMe()
+                .tokenValiditySeconds(60)
+                .key("superSecretKey")
+                .tokenRepository(tokenRepository())
+
+                .and()
+                .logout()
+                .logoutSuccessUrl("/login?logout=true")
+                .logoutRequestMatcher(new AntPathRequestMatcher("/perform_logout", "POST"))
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .permitAll()
+        ;
+    }
+
+    @Bean
+    public PersistentTokenRepository tokenRepository()
+    {
+        JdbcTokenRepositoryImpl token = new JdbcTokenRepositoryImpl();
+        token.setDataSource(dataSource);
+        return token;
     }
 
     @Override
