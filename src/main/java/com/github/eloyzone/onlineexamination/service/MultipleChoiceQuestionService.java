@@ -39,7 +39,7 @@ public class MultipleChoiceQuestionService
     public boolean update(MultipleChoiceQuestion multipleChoiceQuestion)
     {
         if (multipleChoiceQuestion.getDescription().equals("<p><br data-cke-filler=\"true\"></p>"))
-            multipleChoiceQuestion.setDescription("");
+            multipleChoiceQuestion.setDescription(null);
 
         if (multipleChoiceQuestion.getId() == null)
         {

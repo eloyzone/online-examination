@@ -54,7 +54,7 @@ public class GapFillingQuestionService
     public boolean update(GapFillingQuestion gapFillingQuestion)
     {
         if (gapFillingQuestion.getDescription().equals("<p><br data-cke-filler=\"true\"></p>"))
-            gapFillingQuestion.setDescription("");
+            gapFillingQuestion.setDescription(null);
 
         if (gapFillingQuestion.getId() == null)
         {
