@@ -2,7 +2,6 @@ package com.github.eloyzone.onlineexamination.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class Book
     private User user;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "book")
-    private List<GapFillingQuestion> gapFillingQuestions = new ArrayList<>();
+    private List<Question> questions = new ArrayList<>();
 
     @NotEmpty(message = "{book.name.cannot.be.empty}")
     private String name;
@@ -37,14 +36,14 @@ public class Book
         this.id = id;
     }
 
-    public List<GapFillingQuestion> getGapFillingQuestions()
+    public List<Question> getQuestions()
     {
-        return gapFillingQuestions;
+        return questions;
     }
 
-    public void setGapFillingQuestions(List<GapFillingQuestion> gapFillingQuestions)
+    public void setQuestions(List<Question> questions)
     {
-        this.gapFillingQuestions = gapFillingQuestions;
+        this.questions = questions;
     }
 
     public String getName()

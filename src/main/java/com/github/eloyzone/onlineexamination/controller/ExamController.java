@@ -1,8 +1,7 @@
 package com.github.eloyzone.onlineexamination.controller;
 
-import com.github.eloyzone.onlineexamination.domain.GapFillingQuestion;
-import com.github.eloyzone.onlineexamination.domain.User;
-import com.github.eloyzone.onlineexamination.service.GapFillingQuestionService;
+import com.github.eloyzone.onlineexamination.domain.*;
+import com.github.eloyzone.onlineexamination.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -10,8 +9,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,17 +21,14 @@ import java.util.List;
 public class ExamController
 {
     @Autowired
-    private GapFillingQuestionService gapFillingQuestionService;
-
+    private QuestionService questionService;
 
     @GetMapping("")
     public String getExamView(@AuthenticationPrincipal User user, ModelMap modelMap)
     {
-        List<GapFillingQuestion> gapFillingQuestions = gapFillingQuestionService.getTodayQuestions(user);
-        Collections.shuffle(gapFillingQuestions);
-        modelMap.put("gapFillingQuestions", gapFillingQuestions);
+        List<Question> questions = questionService.getTodayQuestions(user);
+        Collections.shuffle(questions);
+        modelMap.put("questions", questions);
         return "exam";
     }
-
-
 }

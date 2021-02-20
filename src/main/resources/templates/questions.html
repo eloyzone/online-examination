@@ -51,8 +51,8 @@
                 </th:block>
             </div>
 
-            <a class="btn btn-danger" th:href="@{/books/{bookId}/questions/new(bookId=${bookId})}" role="button">New
-                Question</a>
+            <a class="btn btn-danger" th:href="@{/books/{bookId}/questions/gapFillingQuestion/new(bookId=${bookId})}"
+               role="button">New Gap Filling Question</a>
 
             <table class="table table-striped table-dark mt-2 filling-gap-questions-list">
                 <tbody>
@@ -64,7 +64,8 @@
                         </td>
                         <td class="d-flex justify-content-end">
                             <div>2 Mistakes out of 10 tries</div>
-                            <div><span class="badge badge-pill badge-danger" th:text="'Level ' + ${gapFillingQuestion.level}">Level 1</span></div>
+                            <div><span class="badge badge-pill badge-danger"
+                                       th:text="'Level ' + ${gapFillingQuestion.level}">Level 1</span></div>
                             <div>
                                 <a th:href="@{/books/{bookId}/questions/{questionId}(bookId=${bookId}, questionId=${gapFillingQuestion.id})}"
                                    class="white-button">
@@ -74,6 +75,42 @@
 
                             <div>
                                 <form th:action="@{/books/{bookId}/questions/delete/{questionId}(bookId=${bookId}, questionId=${gapFillingQuestion.id})}"
+                                      th:method="delete">
+                                    <a class="white-button delete-question-button">
+                                        <i class="far fa-trash-alt"></i></i>
+                                    </a>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <a class="btn btn-danger" th:href="@{/books/{bookId}/questions/multipleChoiceQuestion/new(bookId=${bookId})}"
+               role="button">New Multiple Choice Question</a>
+
+            <table class="table table-striped table-dark mt-2 filling-gap-questions-list">
+                <tbody>
+                    <tr th:each="multipleChoiceQuestion: ${multipleChoiceQuestions}">
+                        <td>
+                            <a th:href="@{/books/{bookId}/questions/{questionId}(bookId=${bookId}, questionId=${multipleChoiceQuestion.id})}"
+                               class="white-button" th:text="${multipleChoiceQuestion.text}">
+                            </a>
+                        </td>
+                        <td class="d-flex justify-content-end">
+                            <div>2 Mistakes out of 10 tries</div>
+                            <div><span class="badge badge-pill badge-danger"
+                                       th:text="'Level ' + ${multipleChoiceQuestion.level}">Level 1</span></div>
+                            <div>
+                                <a th:href="@{/books/{bookId}/questions/{questionId}(bookId=${bookId}, questionId=${multipleChoiceQuestion.id})}"
+                                   class="white-button">
+                                    <i class="far fa-edit"></i>
+                                </a>
+                            </div>
+
+                            <div>
+                                <form th:action="@{/books/{bookId}/questions/delete/{questionId}(bookId=${bookId}, questionId=${multipleChoiceQuestion.id})}"
                                       th:method="delete">
                                     <a class="white-button delete-question-button">
                                         <i class="far fa-trash-alt"></i></i>

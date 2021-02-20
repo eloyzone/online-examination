@@ -259,35 +259,92 @@
                     <!--<span class="hint">(quick)</span>-->
                     <!--<button type="button" class="btn btn-sm check-answer-button btn-warning">Check</button>-->
                     <!--</li>-->
-                    <li th:each="gapFillingQuestion :${gapFillingQuestions}">
-                        <input type="hidden" th:value="${gapFillingQuestion.id}"/>
-                        <span class="list-number"></span>
-                        <span class="question-span" th:text="${gapFillingQuestion.text}"></span>
-                        <span class="hint" th:if="${gapFillingQuestion.hint != null and gapFillingQuestion.hint != ''}"
-                              th:text="'('+ ${gapFillingQuestion.hint} +')'">(quick)</span>
-                        <div class="mt-2">
-                            <button type="button" class="btn btn-sm check-answer-button btn-warning">Check</button>
-                            <button type="button" class="btn btn-sm btn-info d-none"
-                                    data-toggle="collapse"
-                                    th:attr="data-target=@{#collapseDescription-{id}(id=${gapFillingQuestion.id})}
-                                         ,aria-controls=@{collapseDescription-{id}(id=${gapFillingQuestion.id})}"
-                                    aria-expanded="false"
-                            >Description
-                            </button>
-                            <div class="loader d-none"></div>
-                            <div class="collapse mt-4"
-                                 th:id="@{collapseDescription-{id}(id=${gapFillingQuestion.id})}">
-                                <div class="card card-body">
-                                    <h6 class="card-title">Answer: <span style="color: #187d18"></span></h6>
+
+
+                    <li th:each="question :${questions}">
+
+
+                        <!--<span th:if="${gapFillingQuestion.class.name == 'com.github.eloyzone.onlineexamination.domain.GapFillingQuestion'}"-->
+                        <!--th:text="A cat"></span>-->
+
+                        <th:block
+                                th:if="${question.class.name == 'com.github.eloyzone.onlineexamination.domain.GapFillingQuestion'}">
+
+                            <input type="hidden" th:value="${question.id}"/>
+                            <span class="list-number"></span>
+                            <span class="question-span" th:text="${question.text}"></span>
+                            <span class="hint"
+                                  th:if="${question.hint != null and question.hint != ''}"
+                                  th:text="'('+ ${question.hint} +')'">(quick)</span>
+                            <div class="mt-2">
+                                <button type="button" class="btn btn-sm check-answer-button btn-warning">Check</button>
+                                <button type="button" class="btn btn-sm btn-info d-none"
+                                        data-toggle="collapse"
+                                        th:attr="data-target=@{#collapseDescription-{id}(id=${question.id})}
+                    ,aria-controls=@{collapseDescription-{id}(id=${question.id})}"
+                                        aria-expanded="false"
+                                >Description
+                                </button>
+                                <div class="loader d-none"></div>
+                                <div class="collapse mt-4"
+                                     th:id="@{collapseDescription-{id}(id=${question.id})}">
+                                    <div class="card card-body">
+                                        <h6 class="card-title">Answer: <span style="color: #187d18"></span></h6>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+
+                        </th:block>
+
+                        <th:block
+                                th:if="${question.class.name == 'com.github.eloyzone.onlineexamination.domain.MultipleChoiceQuestion'}">
+                            <input type="hidden" th:value="${question.id}"/>
+                            <span class="list-number"></span>
+                            <span class="question-span" th:text="${question.text}"></span>
+                            <span class="hint"
+                                  th:if="${question.hint != null and question.hint != ''}"
+                                  th:text="'('+ ${question.hint} +')'">(quick)</span>
+                            <div class="multiple-Answer-options">
+                                <div th:each="multipleAnswerOption :${question.multipleAnswerOptions}">
+                                    <input type="hidden" th:id="'answer-option-' + ${multipleAnswerOption.id}"
+                                           th:value="${multipleAnswerOption.id}"/>
+                                    <div class="mt-2 alert alert-primary answer-option"
+                                         th:text="${multipleAnswerOption.answerStatement}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <div class="controller">
+                                    <button type="button"
+                                            class="btn btn-sm check-multiple-choice-answer-button btn-warning">Check
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-info d-none"
+                                            data-toggle="collapse"
+                                            th:attr="data-target=@{#collapseDescription-{id}(id=${question.id})}
+                    ,aria-controls=@{collapseDescription-{id}(id=${question.id})}"
+                                            aria-expanded="false"
+                                    >Description
+                                    </button>
+                                </div>
+                                <div class="loader d-none"></div>
+                                <div class="collapse mt-4"
+                                     th:id="@{collapseDescription-{id}(id=${question.id})}">
+                                    <div class="card card-body">
+                                    </div>
+                                </div>
+                            </div>
+                        </th:block>
 
                     </li>
+
+
                 </ol>
             </div>
 
 
+            <button id="buttonTest">
+                Test
+            </button>
         </div>
 
 
@@ -323,6 +380,75 @@
         <script>
 
             $(document).ready(function () {
+
+
+                $('.answer-option').on('click', function () {
+
+                    if ($(this).hasClass('answer-option')) {
+                        if ($(this).hasClass("select")) {
+                            $(this).removeClass("ml-2 mr-2 select");
+                        }
+                        else {
+                            $(this).addClass("ml-2 mr-2 select");
+                        }
+
+                    }
+
+
+                });
+
+                $('#buttonTest').on('click', function () {
+
+                    let multipleChoiceQuestion = {};
+                    multipleChoiceQuestion["id"] = 1;
+
+                    multipleChoiceQuestion["multipleAnswerOptions"] = [];
+                    for (i = 0; i < 5; i++) {
+                        let multipleAnswerOption = {};
+                        multipleAnswerOption["id"] = i;
+                        multipleChoiceQuestion["multipleAnswerOptions"].push(multipleAnswerOption);
+                    }
+
+
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        url: "/rest/exam/checkMultipleChoiceQuestion",
+                        data: JSON.stringify(multipleChoiceQuestion),
+                        dataType: 'json',
+                        cache: false,
+                        timeout: 600000,
+                        success: function (data) {
+
+                            // console.log("SUCCESS : ", data);
+                            // console.log(data['status']);
+                            // console.log(data['description']);
+
+                            // loaderDiv.addClass("d-none");
+
+                            if (data['status'] == 'correct') {
+                                // enteredAnswerInputText.addClass("correct-answer").removeClass("wrong-answer");
+                                // updateDueToAnsweringQuestion();
+                            }
+                            else if (data['status'] == 'wrong') {
+                                // enteredAnswerInputText.addClass("wrong-answer").removeClass("correct-answer");
+                                // updateDueToAnsweringQuestion();
+                            }
+                            else {
+                                // ERROR
+                            }
+
+                            // collapsableDescriptionDiv.find("div.card-body span").append(data['answer']);
+                            // collapsableDescriptionDiv.find("div.card-body").append(data['description']);
+                            // showDescriptionButton.removeClass("d-none");
+                        },
+                        error: function (e) {
+                            // loaderDiv.addClass("d-none");
+                            console.log("ERROR : ", e);
+                        }
+                    });
+                });
+
 
                 let totalQuestionsCount = document.getElementById("questions-list").getElementsByTagName("li").length;
                 let answeredQuestionCount = 0;
@@ -364,6 +490,155 @@
                     }
                 });
 
+
+                $('.check-multiple-choice-answer-button').on('click', function () {
+
+                    console.log("ofatad tu method");
+                    let checkAnswerButton = $(this);
+                    let questionList = $(this).parent().parent().parent();
+                    let questionId = questionList.find("input[type=hidden]:first").val();
+                    let multipleAnswerOptionsDiv = questionList.find("div:first");
+                    let showDescriptionButton = $(this).parent().find("button:eq(1)");
+                    let loaderDiv = questionList.find("div.loader");
+                    let collapsableDescriptionDiv = questionList.find("div div.collapse");
+                    // let enteredAnswer = enteredAnswerInputText.val().trim();
+
+
+                    let multipleChoiceQuestion = {};
+                    multipleChoiceQuestion["id"] = parseInt(questionId, 10);
+                    multipleChoiceQuestion["multipleAnswerOptions"] = [];
+
+
+                    let selectedAnswerOptionCount = 0;
+
+                    multipleAnswerOptionsDiv.children('div').each(function () {
+                        let answerOptionId = $(this).find("input[type=hidden]:first").val();
+                        let answerOptionDiv = $(this).find("div:first");
+
+                        answerOptionDiv.removeClass("answer-option");
+
+                        let multipleAnswerOption = {};
+                        multipleAnswerOption["id"] = parseInt(answerOptionId, 10);
+
+                        if (answerOptionDiv.hasClass("select")) {
+                            multipleAnswerOption["answer"] = true;
+                            selectedAnswerOptionCount++;
+                        }
+                        else {
+                            multipleAnswerOption["answer"] = false;
+                        }
+
+                        multipleChoiceQuestion["multipleAnswerOptions"].push(multipleAnswerOption);
+
+                    });
+
+                    if (selectedAnswerOptionCount == 0)
+                    {
+                        alert("Select at least one option");
+                        multipleAnswerOptionsDiv.children('div').each(function () {
+                            let answerOptionDiv = $(this).find("div:first");
+                            answerOptionDiv.addClass("answer-option");
+                        });
+                        return;
+                    }
+
+                    console.log("Umad inja");
+
+                    loaderDiv.removeClass("d-none");
+
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        url: "/rest/exam/checkMultipleChoiceQuestion",
+                        data: JSON.stringify(multipleChoiceQuestion),
+                        dataType: 'json',
+                        cache: false,
+                        timeout: 600000,
+                        success: function (data) {
+
+                            loaderDiv.addClass("d-none");
+
+                            let responseIcon = document.createElement("i");
+
+                            if (data['status'] == 'error') {
+                                // ERROR from server
+                                return;
+                            }
+
+                            else if (data['status'] == 'correct') {
+
+                                responseIcon.className = "fas fa-check-circle";
+                                responseIcon.style.color = '#076b07';
+                                responseIcon.style.fontSize = '1.5em';
+
+                                // updateDueToAnsweringQuestion();
+                            }
+                            else if (data['status'] == 'wrong') {
+
+                                responseIcon.className = "fas fa-times-circle";
+                                responseIcon.style.color = '#6b0611';
+                                responseIcon.style.fontSize = '1.5em';
+
+                                // updateDueToAnsweringQuestion();
+                            }
+
+                            checkAnswerButton.replaceWith(responseIcon);
+
+                            data['multipleAnswerOptions'].forEach(function (multipleAnswerOption) {
+                                let answerOptionDivId = "#answer-option-" + multipleAnswerOption['id'];
+
+                                if (multipleAnswerOption['answer'] == true) {
+                                    let correctAnswerOption = $(answerOptionDivId).parent().find("div:first");
+                                    correctAnswerOption.addClass("alert-dismissible");
+                                    correctAnswerOption.append('<span class="close" style="color: green"><span>✓</span></span>');
+                                } else {
+                                    let wrongAnswerOption = $(answerOptionDivId).parent().find("div:first");
+                                    wrongAnswerOption.addClass("alert-dismissible");
+                                    wrongAnswerOption.append('<span class="close" style="color: red"><span>×</span></span>');
+                                }
+
+                            });
+
+                            if(data['description'] != null)
+                            {
+                                showDescriptionButton.removeClass("d-none");
+                                collapsableDescriptionDiv.find("div.card-body").append(data['description']);
+                            }
+                        },
+                        error: function (e) {
+                            // loaderDiv.addClass("d-none");
+                            console.log("ERROR : ", e);
+                        }
+                    });
+
+
+                    // selectedAnswerOptions.sort(); // sort in ascending order
+
+                    // console.log(selectedAnswerOptions);
+
+
+                    let serverResponse = {
+                        "status": "correct",
+
+                    };
+
+
+                    // if (enteredAnswer.length == 0) {
+                    //     enteredAnswerInputText.addClass("red-input-text");
+                    //     enteredAnswerInputText.popover('show');
+                    //
+                    //     enteredAnswerInputText.on('input', function () {
+                    //         $(this).popover('dispose');
+                    //     });
+                    // }
+                    // else {
+                    //     enteredAnswerInputText.removeClass("red-input-text");
+                    //     loaderDiv.removeClass("d-none");
+                    //     enteredAnswerInputText.attr("readonly", "readonly");
+                    //     checkSubmittedAnswerViaAjax(checkAnswerButton, enteredAnswer, questionId, enteredAnswerInputText, loaderDiv, showDescriptionButton, collapsableDescriptionDiv, answeredQuestionCount, totalQuestionsCount);
+                    // }
+                });
+
                 function updateDueToAnsweringQuestion() {
 
                     if (answeredQuestionCount != totalQuestionsCount) {
@@ -394,7 +669,7 @@
 
                     questionCheckingRequest["questionId"] = questionId;
                     questionCheckingRequest["enteredAnswer"] = enteredAnswer;
-                    checkAnswerButton.attr('disabled','disabled');
+                    checkAnswerButton.attr('disabled', 'disabled');
 
                     $.ajax({
                         type: "POST",

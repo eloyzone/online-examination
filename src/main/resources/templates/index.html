@@ -26,7 +26,7 @@
                     <div class="col-6 col-md-3">
                         <div class="card-counter color-level-1">
                             <i>1</i>
-                            <span class="count-numbers" th:text="${levelOneCount}">12</span>
+                            <span class="count-numbers" th:text="${levelOneCount} ?: '0'">12</span>
                             <span class="count-name">Level 1</span>
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                     <div class="col-6 col-md-3">
                         <div class="card-counter color-level-2">
                             <i>2</i>
-                            <span class="count-numbers" th:text="${levelTwoCount}">599</span>
+                            <span class="count-numbers" th:text="${levelTwoCount} ?: '0'">599</span>
                             <span class="count-name">Level 2</span>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                     <div class="col-6 col-md-3">
                         <div class="card-counter color-level-3">
                             <i>3</i>
-                            <span class="count-numbers" th:text="${levelThreeCount}">6875</span>
+                            <span class="count-numbers" th:text="${levelThreeCount} ?: '0'">6875</span>
                             <span class="count-name">Level 3</span>
                         </div>
                     </div>
@@ -50,7 +50,7 @@
                     <div class="col-6 col-md-3">
                         <div class="card-counter color-level-4">
                             <i>4</i>
-                            <span class="count-numbers" th:text="${levelFourCount}">35</span>
+                            <span class="count-numbers" th:text="${levelFourCount} ?: '0'">35</span>
                             <span class="count-name">Level 4</span>
                         </div>
                     </div>
@@ -59,7 +59,7 @@
                     <div class="col-6 col-md-3">
                         <div class="card-counter color-level-5">
                             <i>5</i>
-                            <span class="count-numbers" th:text="${levelFiveCount}">599</span>
+                            <span class="count-numbers" th:text="${levelFiveCount} ?: '0'">599</span>
                             <span class="count-name">Level 5</span>
                         </div>
                     </div>
@@ -67,7 +67,7 @@
                     <div class="col-6 col-md-3">
                         <div class="card-counter color-level-6">
                             <i>6</i>
-                            <span class="count-numbers" th:text="${levelSixCount}">6875</span>
+                            <span class="count-numbers" th:text="${levelSixCount} ?: '0'">6875</span>
                             <span class="count-name">Level 6</span>
                         </div>
                     </div>
@@ -75,7 +75,7 @@
                     <div class="col-6 col-md-3">
                         <div class="card-counter color-level-7">
                             <i>7</i>
-                            <span class="count-numbers" th:text="${levelSevenCount}">35</span>
+                            <span class="count-numbers" th:text="${levelSevenCount} ?: '0'">35</span>
                             <span class="count-name">Level 7</span>
                         </div>
                     </div>

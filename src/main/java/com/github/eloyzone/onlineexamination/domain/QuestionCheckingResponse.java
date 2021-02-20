@@ -1,5 +1,7 @@
 package com.github.eloyzone.onlineexamination.domain;
 
+import java.util.List;
+
 /**
  * @author Eloy 'Elyas' Hadizadeh Tasbiti
  * Created in 10/10/20, 6:53 PM.
@@ -13,8 +15,19 @@ public class QuestionCheckingResponse
     private String status;
     private String answer;
     private String description;
+    private List<MultipleAnswerOption> multipleAnswerOptions;
     private String errorMessage;
 
+
+    public QuestionCheckingResponse (MultipleChoiceQuestion multipleChoiceQuestion, String status)
+    {
+        this.status = status;
+        this.answer = "";
+        this.description = multipleChoiceQuestion.getDescription();
+        this.multipleAnswerOptions = multipleChoiceQuestion.getMultipleAnswerOptions();
+        this.errorMessage = "";
+
+    }
     public QuestionCheckingResponse(String status, String answer, String description)
     {
         this.status = status;
@@ -69,5 +82,15 @@ public class QuestionCheckingResponse
     public void setErrorMessage(String errorMessage)
     {
         this.errorMessage = errorMessage;
+    }
+
+    public List<MultipleAnswerOption> getMultipleAnswerOptions()
+    {
+        return multipleAnswerOptions;
+    }
+
+    public void setMultipleAnswerOptions(List<MultipleAnswerOption> multipleAnswerOptions)
+    {
+        this.multipleAnswerOptions = multipleAnswerOptions;
     }
 }

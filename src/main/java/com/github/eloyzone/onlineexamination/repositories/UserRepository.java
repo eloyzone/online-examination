@@ -1,6 +1,5 @@
 package com.github.eloyzone.onlineexamination.repositories;
 
-import com.github.eloyzone.onlineexamination.domain.Book;
 import com.github.eloyzone.onlineexamination.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
