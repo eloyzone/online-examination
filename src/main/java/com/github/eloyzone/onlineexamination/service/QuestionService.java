@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,17 +54,10 @@ public class QuestionService
         user = userRepository.findById(user.getId()).get();
         int level = whichLevelToReview(user);
         LocalDate todayDate = DateUtil.getTodayDate();
-
-        return questionRepository.findByLevelAndCreatedDateNotAndBook_User_id(1, todayDate, user.getId());
-//        if (level != 1)
-//        {
-//            // level one plus others
-//            return questionRepository.findByUserIdAndLevels(user.getId(), level, todayDate);
-//        } else
-//        {
-//            // just level one
-//            return gapFillingQuestionRepository.findByUserIdAndLevels(user.getId(), 1, todayDate);
-//        }
+        List<Integer> levels = new ArrayList<>();
+        levels.add(1);
+        levels.add(level);
+        return questionRepository.findByLevelInAndCreatedDateNotAndBook_User_id(levels, todayDate, user.getId());
     }
 
     public int whichLevelToReview(User user)

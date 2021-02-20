@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Long>
 {
-    List<Question> findByLevelAndCreatedDateNotAndBook_User_id(int level, LocalDate createdDate, Long UserId);
+    List<Question> findByLevelInAndCreatedDateNotAndBook_User_id(List<Integer> levels, LocalDate createdDate, Long UserId);
 
     @Query(value = "SELECT count(*) as count, level as level FROM book INNER JOIN question as question ON book.id = question.book_id where book.user_id = :userId group by level", nativeQuery = true)
     List<Tuple> questionsLevelsCount(@Param("userId") Long userId);
