@@ -1,5 +1,7 @@
 package com.github.eloyzone.onlineexamination.domain;
 
+import com.github.eloyzone.onlineexamination.validator.GapFillingQuestionTextConstraint;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
@@ -17,6 +19,13 @@ public class GapFillingQuestion extends Question
     public GapFillingQuestion()
     {
         super();
+    }
+
+    @GapFillingQuestionTextConstraint
+    @Override
+    public String getText()
+    {
+        return super.getText();
     }
 
     public String getAnswer()
