@@ -5,7 +5,6 @@ import com.github.eloyzone.onlineexamination.service.BookService;
 import com.github.eloyzone.onlineexamination.service.GapFillingQuestionService;
 import com.github.eloyzone.onlineexamination.service.MultipleChoiceQuestionService;
 import com.github.eloyzone.onlineexamination.service.QuestionService;
-import com.github.eloyzone.onlineexamination.validator.GapFillingQuestionValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.MessageSource;
@@ -44,9 +43,6 @@ public class QuestionsController
 
     @Autowired
     private BookService bookService;
-
-    @Autowired
-    private GapFillingQuestionValidator gapFillingQuestionValidator;
 
     @Autowired
     private QuestionService questionService;
