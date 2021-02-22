@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -57,26 +58,29 @@ public class MultipleChoiceQuestionService
         if (optionalMultipleChoiceQuestion.isPresent())
         {
             MultipleChoiceQuestion multipleChoiceQuestionCached = optionalMultipleChoiceQuestion.get();
-            QuestionCheckingResponse questionCheckingResponse;
-
-            boolean correctAnswer = true;
-
             List<MultipleAnswerOption> multipleAnswerOptionsCached = multipleChoiceQuestionCached.getMultipleAnswerOptions();
+
+            int evaluatedMultipleAnswerOptionsCount = 0;
+            int multipleAnswerOptionsCount = multipleAnswerOptionsCached.size();
+
             for (MultipleAnswerOption multipleAnswerOptionCached : multipleAnswerOptionsCached)
             {
-                correctAnswer = false;
                 List<MultipleAnswerOption> multipleAnswerOptions = multipleChoiceQuestion.getMultipleAnswerOptions();
                 for (MultipleAnswerOption multipleAnswerOption : multipleAnswerOptions)
                 {
-                    if ((multipleAnswerOptionCached.isAnswer() == multipleAnswerOption.isAnswer()) && (multipleAnswerOptionCached.getId() == multipleAnswerOption.getId()))
+                    if ((multipleAnswerOptionCached.isAnswer() == multipleAnswerOption.isAnswer()) &&
+                            (Objects.equals(multipleAnswerOptionCached.getId(), multipleAnswerOption.getId())))
                     {
-                        correctAnswer = true;
+                        evaluatedMultipleAnswerOptionsCount++;
+                        multipleChoiceQuestion.getMultipleAnswerOptions().remove(multipleAnswerOption);
                         break;
                     }
                 }
             }
 
-            if (correctAnswer)
+            QuestionCheckingResponse questionCheckingResponse;
+
+            if (multipleAnswerOptionsCount == evaluatedMultipleAnswerOptionsCount)
             {
                 if (multipleChoiceQuestionCached.getLevel() != 7)
                     multipleChoiceQuestionCached.setLevel(multipleChoiceQuestionCached.getLevel() + 1);
