@@ -86,83 +86,6 @@
                 background-color: #ff907e9c;
             }
 
-            /*
-    *
-    * ==========================================
-    * CUSTOM UTIL CLASSES
-    * ==========================================
-    *
-    */
-
-            .progress-circle {
-                width: 150px;
-                height: 150px;
-                background: none;
-                position: relative;
-            }
-
-            .progress-circle::after {
-                content: "";
-                width: 100%;
-                height: 100%;
-                border-radius: 50%;
-                border: 6px solid #eee;
-                position: absolute;
-                top: 0;
-                left: 0;
-            }
-
-            .progress-circle > span {
-                width: 50%;
-                height: 100%;
-                overflow: hidden;
-                position: absolute;
-                top: 0;
-                z-index: 1;
-            }
-
-            .progress-circle .progress-circle-left {
-                left: 0;
-            }
-
-            .progress-circle .progress-circle-bar {
-                width: 100%;
-                height: 100%;
-                background: none;
-                border-width: 6px;
-                border-style: solid;
-                position: absolute;
-                top: 0;
-            }
-
-            .progress-circle .progress-circle-left .progress-circle-bar {
-                left: 100%;
-                border-top-right-radius: 80px;
-                border-bottom-right-radius: 80px;
-                border-left: 0;
-                -webkit-transform-origin: center left;
-                transform-origin: center left;
-            }
-
-            .progress-circle .progress-circle-right {
-                right: 0;
-            }
-
-            .progress-circle .progress-circle-right .progress-circle-bar {
-                left: -100%;
-                border-top-left-radius: 80px;
-                border-bottom-left-radius: 80px;
-                border-right: 0;
-                -webkit-transform-origin: center right;
-                transform-origin: center right;
-            }
-
-            .progress-circle .progress-circle-value {
-                position: absolute;
-                top: 0;
-                left: 0;
-            }
-
             .loader {
                 display: inline-block;
                 border: 5px solid #f3f3f3;
@@ -244,28 +167,14 @@
                         margin: auto;      /* Center it */
                         max-width: 100%;   /* Make it fit window if under 500px */
                         z-index: 10000;    /* Whatever needed to force to front (1 might do) */">
-                <!--<div class="progress-bar" role="progressbar" style="width: 100%;">32% (25 out of 100)</div>-->
                 <div class="progress-bar" id="progress-bar" role="progressbar"></div>
                 <span>0%</span>
             </div>
 
             <div>
                 <ol class="questions-list" id="questions-list">
-                    <!--<li>-->
-                    <!--<span class="list-number"></span>-->
-                    <!--He-->
-                    <!--<input class="gap-input-text" type="text" size="10" value="" id="solution1_1">-->
-                    <!--reads a book.-->
-                    <!--<span class="hint">(quick)</span>-->
-                    <!--<button type="button" class="btn btn-sm check-answer-button btn-warning">Check</button>-->
-                    <!--</li>-->
-
 
                     <li th:each="question :${questions}">
-
-
-                        <!--<span th:if="${gapFillingQuestion.class.name == 'com.github.eloyzone.onlineexamination.domain.GapFillingQuestion'}"-->
-                        <!--th:text="A cat"></span>-->
 
                         <th:block
                                 th:if="${question.class.name == 'com.github.eloyzone.onlineexamination.domain.GapFillingQuestion'}">
@@ -277,7 +186,7 @@
                                   th:if="${question.hint != null and question.hint != ''}"
                                   th:text="'('+ ${question.hint} +')'">(quick)</span>
                             <div class="mt-2">
-                                <button type="button" class="btn btn-sm check-answer-button btn-warning">Check</button>
+                                <button type="button" class="btn btn-sm check-gap-filling-question-answer-button btn-warning">Check</button>
                                 <button type="button" class="btn btn-sm btn-info d-none"
                                         data-toggle="collapse"
                                         th:attr="data-target=@{#collapseDescription-{id}(id=${question.id})}
@@ -341,10 +250,6 @@
                 </ol>
             </div>
 
-
-            <button id="buttonTest">
-                Test
-            </button>
         </div>
 
 
@@ -358,11 +263,6 @@
                 let questionSpans = document.getElementsByClassName("question-span");
                 for (let i = 0; i < questionSpans.length; i++) {
                     let toReplace = questionSpans.item(i);
-                    // toReplace.innerHTML = toReplace.innerHTML.replace("XXX",
-                    //     '<input type="text" class= "gap-input-text" size="10" ' +
-                    //     'data-toggle="tooltip" data-placement="top" ' +
-                    //     'th:attr="data-content=#{not.empty.input.text}">');
-                    // $(this).html(toReplace);
                     let clonedGapInputText = document.getElementById("gapInputTextTemplate").cloneNode(true);
                     clonedGapInputText.style.display = "";
                     clonedGapInputText.removeAttribute('id');
@@ -397,59 +297,6 @@
 
                 });
 
-                $('#buttonTest').on('click', function () {
-
-                    let multipleChoiceQuestion = {};
-                    multipleChoiceQuestion["id"] = 1;
-
-                    multipleChoiceQuestion["multipleAnswerOptions"] = [];
-                    for (i = 0; i < 5; i++) {
-                        let multipleAnswerOption = {};
-                        multipleAnswerOption["id"] = i;
-                        multipleChoiceQuestion["multipleAnswerOptions"].push(multipleAnswerOption);
-                    }
-
-
-                    $.ajax({
-                        type: "POST",
-                        contentType: "application/json",
-                        url: "/rest/exam/checkMultipleChoiceQuestion",
-                        data: JSON.stringify(multipleChoiceQuestion),
-                        dataType: 'json',
-                        cache: false,
-                        timeout: 600000,
-                        success: function (data) {
-
-                            // console.log("SUCCESS : ", data);
-                            // console.log(data['status']);
-                            // console.log(data['description']);
-
-                            // loaderDiv.addClass("d-none");
-
-                            if (data['status'] == 'correct') {
-                                // enteredAnswerInputText.addClass("correct-answer").removeClass("wrong-answer");
-                                // updateDueToAnsweringQuestion();
-                            }
-                            else if (data['status'] == 'wrong') {
-                                // enteredAnswerInputText.addClass("wrong-answer").removeClass("correct-answer");
-                                // updateDueToAnsweringQuestion();
-                            }
-                            else {
-                                // ERROR
-                            }
-
-                            // collapsableDescriptionDiv.find("div.card-body span").append(data['answer']);
-                            // collapsableDescriptionDiv.find("div.card-body").append(data['description']);
-                            // showDescriptionButton.removeClass("d-none");
-                        },
-                        error: function (e) {
-                            // loaderDiv.addClass("d-none");
-                            console.log("ERROR : ", e);
-                        }
-                    });
-                });
-
-
                 let totalQuestionsCount = document.getElementById("questions-list").getElementsByTagName("li").length;
                 let answeredQuestionCount = 0;
 
@@ -464,7 +311,7 @@
                 });
 
 
-                $('.check-answer-button').on('click', function () {
+                $('.check-gap-filling-question-answer-button').on('click', function () {
                     let checkAnswerButton = $(this);
                     let questionList = $(this).parent().parent();
                     let enteredAnswerInputText = questionList.find("input[type=text]:first");
@@ -493,7 +340,6 @@
 
                 $('.check-multiple-choice-answer-button').on('click', function () {
 
-                    console.log("ofatad tu method");
                     let checkAnswerButton = $(this);
                     let questionList = $(this).parent().parent().parent();
                     let questionId = questionList.find("input[type=hidden]:first").val();
@@ -501,8 +347,6 @@
                     let showDescriptionButton = $(this).parent().find("button:eq(1)");
                     let loaderDiv = questionList.find("div.loader");
                     let collapsableDescriptionDiv = questionList.find("div div.collapse");
-                    // let enteredAnswer = enteredAnswerInputText.val().trim();
-
 
                     let multipleChoiceQuestion = {};
                     multipleChoiceQuestion["id"] = parseInt(questionId, 10);
@@ -542,8 +386,6 @@
                         return;
                     }
 
-                    console.log("Umad inja");
-
                     loaderDiv.removeClass("d-none");
 
                     $.ajax({
@@ -570,16 +412,14 @@
                                 responseIcon.className = "fas fa-check-circle";
                                 responseIcon.style.color = '#076b07';
                                 responseIcon.style.fontSize = '1.5em';
-
-                                // updateDueToAnsweringQuestion();
+                                updateDueToAnsweringQuestion();
                             }
                             else if (data['status'] == 'wrong') {
 
                                 responseIcon.className = "fas fa-times-circle";
                                 responseIcon.style.color = '#6b0611';
                                 responseIcon.style.fontSize = '1.5em';
-
-                                // updateDueToAnsweringQuestion();
+                                updateDueToAnsweringQuestion();
                             }
 
                             checkAnswerButton.replaceWith(responseIcon);
@@ -606,37 +446,10 @@
                             }
                         },
                         error: function (e) {
-                            // loaderDiv.addClass("d-none");
+                            loaderDiv.addClass("d-none");
                             console.log("ERROR : ", e);
                         }
                     });
-
-
-                    // selectedAnswerOptions.sort(); // sort in ascending order
-
-                    // console.log(selectedAnswerOptions);
-
-
-                    let serverResponse = {
-                        "status": "correct",
-
-                    };
-
-
-                    // if (enteredAnswer.length == 0) {
-                    //     enteredAnswerInputText.addClass("red-input-text");
-                    //     enteredAnswerInputText.popover('show');
-                    //
-                    //     enteredAnswerInputText.on('input', function () {
-                    //         $(this).popover('dispose');
-                    //     });
-                    // }
-                    // else {
-                    //     enteredAnswerInputText.removeClass("red-input-text");
-                    //     loaderDiv.removeClass("d-none");
-                    //     enteredAnswerInputText.attr("readonly", "readonly");
-                    //     checkSubmittedAnswerViaAjax(checkAnswerButton, enteredAnswer, questionId, enteredAnswerInputText, loaderDiv, showDescriptionButton, collapsableDescriptionDiv, answeredQuestionCount, totalQuestionsCount);
-                    // }
                 });
 
                 function updateDueToAnsweringQuestion() {
@@ -654,9 +467,9 @@
                     let key = e.which;
                     if (key == 13)  // the enter key code
                     {
+                        console.log("Here");
                         let questionList = $(this).parent().parent();
-                        questionList.find("button").click();
-                        // $('.gap-input-text').eq(focused_index + 1).focus();
+                        questionList.find("button:eq(0)").click();
                         if ($(this).val().length > 0)
                             document.querySelectorAll('.gap-input-text')[focusedIndex + 1].focus();
                         return false;
@@ -680,10 +493,6 @@
                         cache: false,
                         timeout: 600000,
                         success: function (data) {
-
-                            // console.log("SUCCESS : ", data);
-                            // console.log(data['status']);
-                            // console.log(data['description']);
 
                             loaderDiv.addClass("d-none");
 
