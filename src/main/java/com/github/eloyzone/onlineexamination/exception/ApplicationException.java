@@ -6,8 +6,8 @@ package com.github.eloyzone.onlineexamination.exception;
  */
 public class ApplicationException extends RuntimeException
 {
-    public ApplicationException(String messsage)
+    public ApplicationException(String message)
     {
-        super(messsage);
+        super(message);
     }
 }

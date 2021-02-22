@@ -6,7 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
 /**
- * @author Eloy 'Elyas' Hadizadeh Tasbiti
+ * @author Elyas 'Eloy' Hadizadeh Tasbiti
  * Created in 9/15/20, 5:19 PM.
  */
 @Entity

@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * @author Eloy 'Elyas' Hadizadeh Tasbiti
+ * @author Elyas 'Eloy' Hadizadeh Tasbiti
  * Created in 10/10/20, 7:41 AM.
  */
 @Controller

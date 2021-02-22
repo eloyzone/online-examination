@@ -13,7 +13,7 @@ import java.util.Locale;
 import java.util.Optional;
 
 /**
- * @author Eloy 'Elyas' Hadizadeh Tasbiti
+ * @author Elyas 'Eloy' Hadizadeh Tasbiti
  * Created in 10/2/20, 6:07 PM.
  */
 @Component

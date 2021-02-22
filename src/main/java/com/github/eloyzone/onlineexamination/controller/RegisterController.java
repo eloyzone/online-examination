@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * @author Eloy 'Elyas' Hadizadeh Tasbiti
+ * @author Elyas 'Eloy' Hadizadeh Tasbiti
  * Created in 11/18/20, 4:07 PM.
  */
 @Controller

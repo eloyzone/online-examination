@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @author Eloy 'Elyas' Hadizadeh Tasbiti
+ * @author Elyas 'Eloy' Hadizadeh Tasbiti
  * Created in 10/10/20, 6:21 PM.
  */
 @RestController

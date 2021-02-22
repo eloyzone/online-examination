@@ -7,6 +7,10 @@ import org.springframework.web.filter.HiddenHttpMethodFilter;
 
 import javax.servlet.http.HttpServletRequestWrapper;
 
+/**
+ * @author Elyas 'Eloy' Hadizadeh Tasbiti
+ * Created in 3/16/20, 1:15 PM.
+ */
 @SpringBootApplication
 public class WebApplication
 {

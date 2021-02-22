@@ -14,7 +14,7 @@ import java.util.Map;
 
 
 /**
- * @author Eloy 'Elyas' Hadizadeh Tasbiti
+ * @author Elyas 'Eloy' Hadizadeh Tasbiti
  * Created in 3/16/20, 1:15 PM.
  */
 @Controller

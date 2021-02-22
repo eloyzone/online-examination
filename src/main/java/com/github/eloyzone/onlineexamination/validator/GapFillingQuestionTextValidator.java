@@ -4,7 +4,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 /**
- * @author Eloy 'Elyas' Hadizadeh Tasbiti
+ * @author Elyas 'Eloy' Hadizadeh Tasbiti
  * Created in 2/7/21, 9:52 AM.
  */
 public class GapFillingQuestionTextValidator implements ConstraintValidator<GapFillingQuestionTextConstraint, String>

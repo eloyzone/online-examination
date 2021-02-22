@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @author Eloy 'Elyas' Hadizadeh Tasbiti
+ * @author Elyas 'Eloy' Hadizadeh Tasbiti
  * Created in 11/17/20, 7:58 PM.
  */
 public class UserDetails extends User implements org.springframework.security.core.userdetails.UserDetails

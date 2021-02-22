@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 /**
- * @author Eloy 'Elyas' Hadizadeh Tasbiti
+ * @author Elyas 'Eloy' Hadizadeh Tasbiti
  * Created in 2/1/21, 7:36 PM.
  */
 @Entity

@@ -1,7 +1,7 @@
 package com.github.eloyzone.onlineexamination.domain;
 
 /**
- * @author Eloy 'Elyas' Hadizadeh Tasbiti
+ * @author Elyas 'Eloy' Hadizadeh Tasbiti
  * Created in 10/10/20, 6:53 PM.
  */
 public class QuestionCheckingRequest

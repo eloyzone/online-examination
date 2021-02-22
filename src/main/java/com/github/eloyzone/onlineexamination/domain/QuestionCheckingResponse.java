@@ -3,7 +3,7 @@ package com.github.eloyzone.onlineexamination.domain;
 import java.util.List;
 
 /**
- * @author Eloy 'Elyas' Hadizadeh Tasbiti
+ * @author Elyas 'Eloy' Hadizadeh Tasbiti
  * Created in 10/10/20, 6:53 PM.
  */
 public class QuestionCheckingResponse

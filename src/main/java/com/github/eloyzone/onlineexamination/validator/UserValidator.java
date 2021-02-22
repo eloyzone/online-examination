@@ -15,7 +15,7 @@ import java.util.Locale;
 import java.util.Optional;
 
 /**
- * @author Eloy 'Elyas' Hadizadeh Tasbiti
+ * @author Elyas 'Eloy' Hadizadeh Tasbiti
  * Created in 11/18/20, 4:39 PM.
  */
 @Component

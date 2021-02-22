@@ -1,7 +1,7 @@
 package com.github.eloyzone.onlineexamination.validator;
 
 /**
- * @author Eloy 'Elyas' Hadizadeh Tasbiti
+ * @author Elyas 'Eloy' Hadizadeh Tasbiti
  * Created in 2/7/21, 9:52 AM.
  */
 

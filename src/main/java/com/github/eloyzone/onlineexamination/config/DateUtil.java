@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.Month;
 
 /**
- * @author Eloy 'Elyas' Hadizadeh Tasbiti
+ * @author Elyas 'Eloy' Hadizadeh Tasbiti
  * Created in 10/17/20, 5:32 PM.
  */
 public class DateUtil
